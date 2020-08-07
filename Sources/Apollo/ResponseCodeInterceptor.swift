@@ -7,11 +7,11 @@ public class ResponseCodeInterceptor: ApolloInterceptor {
     case invalidResponseCode(response: HTTPURLResponse?, rawData: Data?)
   }
   
-  public func interceptAsync<Operation: GraphQLOperation>(
+  public func interceptAsync<Operation: GraphQLOperation, TypedError: Error>(
     chain: RequestChain,
     request: HTTPRequest<Operation>,
     response: HTTPResponse<Operation>,
-    completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) {
+    completion: @escaping (Result<GraphQLResult<Operation.Data>, TypedError>) -> Void) {
     
     guard response.httpResponse?.apollo.isSuccessful == true else {
       let error = ResponseCodeError.invalidResponseCode(response: response.httpResponse,

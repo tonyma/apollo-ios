@@ -8,9 +8,9 @@ public protocol ApolloInterceptor: class {
   ///   - request: The request, as far as it has been constructed
   ///   - response: The response, as far as it has been constructed
   ///   - completion: The completion block to fire when data needs to be returned to the UI.
-  func interceptAsync<Operation: GraphQLOperation>(
+  func interceptAsync<Operation: GraphQLOperation, TypedError: Error>(
     chain: RequestChain,
     request: HTTPRequest<Operation>,
     response: HTTPResponse<Operation>,
-    completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void)
+    completion: @escaping (Result<GraphQLResult<Operation.Data>, TypedError>) -> Void)
 }

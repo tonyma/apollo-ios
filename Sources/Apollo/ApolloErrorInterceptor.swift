@@ -2,6 +2,7 @@ import Foundation
 
 /// An error interceptor called to allow further examination of error data when an error occurs in the chain.
 public protocol ApolloErrorInterceptor {
+  associatedtype TypedError: Error
   
   /// Asynchronously handles the receipt of an error at any point in the chain.
   ///
@@ -16,5 +17,20 @@ public protocol ApolloErrorInterceptor {
       chain: RequestChain,
       request: HTTPRequest<Operation>,
       response: HTTPResponse<Operation>,
-      completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void)
+      completion: @escaping (Result<GraphQLResult<Operation.Data>, TypedError>) -> Void)
+}
+
+public class DefaultErrorInterceptor: ApolloErrorInterceptor {
+  public typealias TypedError = Error
+  
+  public func handleErrorAsync<Operation: GraphQLOperation>(
+    error: Error,
+    chain: RequestChain,
+    request: HTTPRequest<Operation>,
+    response: HTTPResponse<Operation>,
+    completion: @escaping (Result<GraphQLResult<Operation.Data>, TypedError>) -> Void) {
+    
+    completion(.failure(error))
+  }
+  
 }

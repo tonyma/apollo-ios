@@ -16,11 +16,11 @@ public class LegacyCacheReadInterceptor: ApolloInterceptor {
     self.store = store
   }
   
-  public func interceptAsync<Operation: GraphQLOperation>(
+  public func interceptAsync<Operation: GraphQLOperation, TypedError: Error>(
     chain: RequestChain,
     request: HTTPRequest<Operation>,
     response: HTTPResponse<Operation>,
-    completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) {
+    completion: @escaping (Result<GraphQLResult<Operation.Data>, TypedError>) -> Void) {
     
     switch request.operation.operationType {
     case .mutation,

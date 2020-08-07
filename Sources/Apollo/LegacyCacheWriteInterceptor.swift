@@ -12,7 +12,7 @@ public class LegacyCacheWriteInterceptor: ApolloInterceptor {
     self.store = store
   }
   
-  public func interceptAsync<Operation: GraphQLOperation>(
+  public func interceptAsync<Operation: GraphQLOperation, TypedError: Error>(
     chain: RequestChain,
     request: HTTPRequest<Operation>,
     response: HTTPResponse<Operation>,
